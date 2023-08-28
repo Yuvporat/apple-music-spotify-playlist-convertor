@@ -1,0 +1,162 @@
+{% load static %}
+<html>
+<head>
+    <!-- css -->
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div class="upper">
+      <p>Hello {{username}}</p>
+      {% if spotify_authenticated %}
+      <button class="logout" @click="logout">Log out</button>
+      {% endif %}
+    </div>
+    <div class="big-div">
+      <h1>Apple Music - Spotify playlist converter</h1>
+      {% if spotify_authenticated %}
+        <h2>Enter Apple Music playlist url:</h2>
+        <div class="search-div">
+          <input v-model="playlistUrl" placeholder="apple music url..."/>
+          <br/>
+          <button class="search" @click="scrapeUrl">find playlist</button>
+        </div>
+        <div v-if="playlist" class="playlist">
+          <h2 class="header1">[[ playlist.name ]]</h2>
+          <p class="sub2" v-html="playlist.description"></p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Artist</th>
+                <th>Album</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(song, index) in playlist.songs" :key="index">
+                <td>[[song.name]] </td>
+                <td>[[song.artist]] </td>
+                <td>[[song.album]] </td>
+              </tr>
+            </tbody>
+          </table>
+        <div class="create-div">
+          <button class="create" @click="createPlaylist">Create Spotify Playlist</button>
+          <p class="msg">[[statusMessage]]  </p>
+        </div>
+        <div class="response-div" v-if="response">
+          <h2 class="header1">We found [[response.msg]] songs, the missing songs are:</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Artist</th>
+                <th>Album</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(song, index) in response.missing_songs" :key="index">
+                <td>[[song.name]] </td>
+                <td>[[song.artist]] </td>
+                <td>[[song.album]] </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        </div>
+        
+      {% else %}
+        <h2 class="sub2">You are not logged in, Please log in with Spotify...</h2>
+        <!-- <button class="login-btn" @click="loginWithSpotify">Log in with Spotify...</button> -->
+        <div class="btn-container">
+          <img
+          src='https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg'
+          alt="spotify login"
+          class="login-btn"
+          @click="loginWithSpotify"
+          /> 
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+    const { createApp } = Vue
+    createApp({
+        delimiters: ['[[', ']]'],
+    data: function () {
+      return {
+        // url: 'http://127.0.0.1:8000',
+        url: '',
+        playlistUrl:'',
+        playlist: null,
+        statusMessage:'Click The Button To Create Spotify Playlist',
+        isLoading: false,
+        response:null,
+      }
+    },
+  computed: {
+  },
+  methods: {
+    loginWithSpotify() {
+      window.location.href= this.url+'/login/'
+    },
+    logout(){
+      window.location.href= this.url+'/logout/'
+    },
+    getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    },
+    async scrapeUrl(){
+      if (this.playlistUrl!=''){
+        const csrfToken = this.getCookie('csrftoken'); // Get the CSRF token from the cookie
+        const headers = {
+          'X-CSRFToken': csrfToken
+        };
+        const response = await axios.post(this.url+'/scrape/', { url: this.playlistUrl },{ headers });
+        console.log(response.data)
+        this.playlist = response.data
+      }
+    },
+    async createPlaylist(){
+      this.isLoading = true;
+      this.statusMessage = 'Please wait...';
+
+      const csrfToken = this.getCookie('csrftoken'); // Get the CSRF token from the cookie
+      const headers = {
+        'X-CSRFToken': csrfToken
+      };
+      const response = await axios.post(this.url+'/create/', { playlist: this.playlist },{ headers });
+      if (response.status === 200) {
+        this.statusMessage = 'Playlist created successfully!';
+      } else {
+        this.statusMessage = 'Something went wrong...';
+      }
+      this.isLoading = false;
+
+      console.log(response)
+      this.response = response.data
+    }
+    
+  },
+  created() {
+  },
+  beforeMount(){
+  }
+}).mount('#app')
+</script>
+</body>
+<style>
+ 
+</style>
+</html>

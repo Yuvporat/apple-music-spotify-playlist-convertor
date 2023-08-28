@@ -1,0 +1,175 @@
+:root {
+    --dark: rgb(31, 31, 31);
+    --second-dark: rgb(77, 77, 77);
+    --light: rgb(170, 170, 170);
+    --lighter: rgb(223, 223, 223);
+    --text-color: #333;
+    --background-color: #f8f9fa;
+  }
+    /* Default styles for all screen sizes (mobile-first) */
+    body{
+      font-family: sans-serif!important;
+      margin: 0;
+      font-size: 50px;
+      background-color: var(--dark);
+      color:var(--light);
+    }
+    .upper{
+      background-color:  var(--second-dark);
+      height:9%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .upper p{
+      margin-left: 20px;
+      color:var(--lighter);
+      background-color:   var(--dark);
+      padding: 17px;
+      border-radius: 5%;
+    }
+    .login-btn{
+      aspect-ratio: 1;
+      width: 300px;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg');
+      background-size: cover;
+      border: none;
+      cursor: pointer;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .btn-container{
+      margin:0 300px;
+      padding: 30px 0;
+      
+      display: flex;
+      justify-content: center;
+      transition: background-color 1s ease; /* Transition duration and easing */
+      background-color: rgb(80, 80, 116);
+  
+    }
+    .btn-container:hover{
+      background-color:rgb(40, 40, 51);
+    }
+    .big-div{
+      padding-left: 4%;
+    }
+    h1{
+      color: var(--lighter);
+    }
+    .search-div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .logout{
+      /* background: #dd5f5f; */
+      background: none;
+      border: none;
+      border-radius: 500px;
+      padding: 8px 24px;
+      font-size: 40px;
+      color:var(--lighter);
+      margin-right: 5%;
+    }
+    input{
+      border: none;
+      border-bottom: 2px solid  var(--light);; /* Underline color */
+      padding: 10px 0;
+      
+      font-size: 50px;
+      outline: none;
+      background-color: transparent; /* No background */
+      width: 90%; /* Set the width as needed */
+      color:var(--lighter);
+    }
+    .search{
+      background: #e0d9d9;
+      border: none;
+      border-radius: 500px;
+      color: #444141;
+      padding: 18px 50px;
+      font-size: 50px;
+      transition: background-color 0.3s ease; /* Transition duration and easing */
+  
+    }
+    .search:hover {
+    background-color: #6c757d; /* New color on hover */
+    }
+    table{
+      font-size: 25px;
+      width: 95%;
+      height: 300px;
+      border-collapse: collapse;
+      display: block;
+    overflow-x: scroll;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    table th,
+  table td {
+    padding: 10px;
+  }
+  table thead th {
+    background-color: #3a72ad;
+    color: white;
+  }
+  .header1{
+    font-size: 50px;
+  }
+  .create-div{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+  }
+  .create{
+      background-color:rgb(53, 139, 89);
+      border: none;
+      border-radius: 500px;
+      color: #e4dfdf;
+      padding: 18px 50px;
+      font-size: 50px;
+      transition: background-color 0.3s ease; /* Transition duration and easing */
+  }
+  .create:hover{
+    background-color:rgb(46, 175, 100);
+  
+  }
+  .msg{
+    font-size: 30px;
+  }
+  .playlist{
+    background-color: #333;
+    width:90%;
+    padding:2%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  
+  
+  /* Media query for screens with a width of 1024px and above (larger desktop screens) */
+  @media screen and (min-width: 1024px) {
+    .upper{
+      height: 15%;
+    }
+    .upper p{
+      padding: 5px;
+      border-radius: 4%;
+    }
+    .btn-container{
+      margin:0 auto 20px auto;
+      padding: 10px;
+     
+      width: 350px;
+  
+    }
+    .sub2{
+      font-size: 30px;
+    }
+    
+  }
+  
